@@ -9,8 +9,8 @@ if FileExist("config.ini") {
 }
 IniWrite, 0, config.ini, Enabled, WSC
 IniWrite, 0, config.ini, Enabled, AC
-IniWrite, null, config.ini, Keys, WSC
-IniWrite, null, config.ini, Keys, AC
+IniWrite, None, config.ini, Keys, WSC
+IniWrite, None, config.ini, Keys, AC
 
 ; Show Menu
 ShowMenu:
@@ -84,8 +84,12 @@ apply:
     }
     writeIni(ChkWsc, "check", "wsc")
     writeIni(ChkAC, "check", "ac")
-    writeIni(keyWSC, "key", "wsc")
-    writeIni(keyAC, "key", "ac")
+    if (keyWSC != "") {
+        writeIni(keyWSC, "key", "wsc")
+    }
+    if (keyAC != "") {
+        writeIni(keyAC, "key", "ac")
+    }
     Msgbox, Settings saved
     ExitApp
 return
