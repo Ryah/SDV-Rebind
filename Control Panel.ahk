@@ -9,8 +9,8 @@ if FileExist("config.ini") {
 }
 IniWrite, 0, config.ini, Enabled, WSC
 IniWrite, 0, config.ini, Enabled, AC
-IniWrite, None, config.ini, Keys, WSC
-IniWrite, None, config.ini, Keys, AC
+IniWrite, "NotSet", config.ini, Keys, WSC
+IniWrite, "NotSet", config.ini, Keys, AC
 
 ; Show Menu
 ShowMenu:
@@ -81,6 +81,14 @@ apply:
                 return
             }
         }
+    }
+    if (ChkWsc = 1 and keyWSC = "") {
+        Msgbox, Unable to save config. Either disable WSC or set a key.
+        return
+    }
+    if (ChkAC = 1 and keyAC = "") {
+        Msgbox, Unable to save config. Either disable Animation Cancel or set a key.
+        return
     }
     writeIni(ChkWsc, "check", "wsc")
     writeIni(ChkAC, "check", "ac")
