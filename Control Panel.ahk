@@ -45,7 +45,7 @@ if (ChkAC = 1) {
 } else {
     GuiControl, Disable, keyAC
 }
-Gui Show, w370 h235, Window
+Gui Show, w370 h235, SDV Rebind
 Return
 
 
@@ -123,6 +123,36 @@ writeIni(value, type, section) {
     }
     return
 }
+
+; Ctrl and Shift modifiers are just here for curiosity
+Space_key= ^+Space
+...
+; The HotKey GUI box
+Gui, Add, Hotkey, x382 y423 w129 r1 vKeyBinding,
+...
+FixHotKeyBox() {
+	ControlGetFocus, outputvar, %windowTitle%
+	if ( !ErrorLevel ) { 
+		if ( outputvar == "msctls_hotkey321" ) {
+			; Timer required. If not used, HotKey box is set to "None"
+			SetTimer, SetKeyBindingToSpace, -1
+		}
+		else { ;This is here to show how to find which control is focused
+			InputBox,outputvar,,,,,,,,,, %outputvar%
+		}
+	}
+}
+
+SetKeyBindingToSpace:
+	GuiControl,, KeyBinding, %Space_key%
+	return
+
+
+#IfWinActive SDV Rebind
+~Space::
+	FixHotKeyBox()
+	return
+#IfWinActive
 
 GuiClose:
 ExitApp

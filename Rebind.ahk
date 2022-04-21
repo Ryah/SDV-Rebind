@@ -140,6 +140,7 @@ UpdateKeys:
     }
 return
 
+;region notify
 #SingleInstance,Force
 Count:=0
 Notify:=Notify(20)
@@ -333,3 +334,4 @@ return
 Escape::
 ExitApp
 return
+;endregion
