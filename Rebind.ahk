@@ -44,16 +44,20 @@ Init:
         Msgbox, Error in config. acChkBox not set.
     }
     if (wscKey = "ERROR" or wscKey = "") {
-        error := 1
-        Msgbox, Error in config. wscKey not set.
+        if (wscChkBox = 1) {
+            error := 1
+            Msgbox, Error in config. wscKey not set with WSC Enabled.
+        }
     }
     if (acKey = "ERROR" or acKey = "") {
-        error := 1
-        Msgbox, Error in config. acKey not set.
+        if (acChkBox = 1) {
+            error := 1
+            Msgbox, Error in config. acKey not set with AC Enabled.
+        }
     }
     if (error = 1) {
         FileDelete, config.ini
-        Msgbox, Please rerun Control Panel to reset keys, then restart this script.
+        Msgbox, Please rerun Control Panel to reset keys. Resetting Keys to default now.
         error := 0
         ExitApp
     }    

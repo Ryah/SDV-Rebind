@@ -1,3 +1,5 @@
 config.ini
 *.exe
 dist
+*.bak
+*.ini
