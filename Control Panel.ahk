@@ -53,7 +53,6 @@ enableWSCInput(state) {
         return
     }
     wscChkStatus := factory.GuiControls.wscChk._Value
-    IniWrite, %wscChkStatus%, config.ini, Enabled, WSC
 }
 
 enableACInput(state) {
@@ -61,7 +60,6 @@ enableACInput(state) {
         return
     }
     acChkStatus := factory.GuiControls.acChk._Value
-    IniWrite, %acChkStatus%, config.ini, Enabled, AC
 }
 
 saveSettings() {
@@ -69,17 +67,18 @@ saveSettings() {
     if (init = 0) {
         return
     }
-    ; Get and Save Checkbox States
+
+    ; Get Checkboxes
     acChkStatus := factory.GuiControls.acChk._Value
     wscChkStatus := factory.GuiControls.wscChk._Value
-    IniWrite, %acChkStatus%, config.ini, Enabled, AC
-    IniWrite, %wscChkStatus%, config.ini, Enabled, WSC
 
-    ; Get and Save Hotkeys
+    ; Get Hotkeys
     acKeyCode := factory.IOControls.keyAC.BindObject.Binding[1]
     wscKeyCode := factory.IOControls.keyWSC.BindObject.Binding[1]
     acKey := BuildKeyName(acKeyCode)
     wscKey := BuildKeyName(wscKeyCode)
+
+    ; Error Checking
     if (wscChkStatus = 1 and wscKey = "") {
         Msgbox, Unable to save config. Either disable WSC or set a key.
         errorExit = 1
@@ -97,14 +96,20 @@ saveSettings() {
             return
         }
     }
+
+    ; Save to ini if no errors
     if (errorExit = 0) {
+        IniWrite, %acChkStatus%, config.ini, Enabled, AC
+        IniWrite, %wscChkStatus%, config.ini, Enabled, WSC
         IniWrite, %wscKey%, config.ini, Key, WSC
         IniWrite, %acKey%, config.ini, Key, AC
         Msgbox, Settings saved.
     }
+    
     Return
 }
 
+;Builds readable key name from keycode since AppFactory returns the 2 digit keyCode instead of a human readable key name
 BuildKeyName(code){
     if (init = 0) {
         return
