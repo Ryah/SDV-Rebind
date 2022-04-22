@@ -409,6 +409,6 @@ Class AppFactory {
 		DeviceID := 0 		; Device ID, eg Stick ID for Joystick input or vGen output
 		Binding := []		; Codes of the input(s) for the Binding. Is an indexed array once set
 							; Normally a single element, but for KBM could be up to 4 modifiers plus a key/button
-		BindOptions := {Block: 0, Wild: 0, SuppressRepeats: 1}
+		BindOptions := {Block: 0, Wild: 0, SuppressRepeats: 0}
 	}
 }
