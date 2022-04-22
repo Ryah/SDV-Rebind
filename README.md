@@ -3,8 +3,6 @@
 
 An AHK script that makes it easier to make 3:1 keybinds for SDV Speedrunning.
 
-Features auto-updating of keys. Currently unable to set extra mouse buttons as trigger keys. May be added in a future update.
-
 https://user-images.githubusercontent.com/14987609/162895110-aaf79ed3-8b5e-419b-b7f3-3a115baad1e8.mp4
 
 ## Installation
