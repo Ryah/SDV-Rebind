@@ -1,11 +1,12 @@
 ﻿#SingleInstance Force
 #NoEnv
-#Include lib/AppFactory/AppFactory.ahk
-FileInstall, lib/AppFactory/AppFactory.ahk, %A_ScriptDir%/lib/AppFactory.ahk
+#Include lib/AppFactory.ahk
+FileInstall, lib/AppFactory.ahk, %A_ScriptDir%/lib/AppFactory.ahk
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 Global factory := new AppFactory()
 Global init = 0
+
 ;Init GUI
 Gui Font, s9, Segoe UI
 Gui Add, Text, x56 y24 w129 h23 +0x200 +Center, Technique
@@ -22,13 +23,29 @@ acKeyObj := factory.AddInputButton("keyAC", "x208 y72 w120 h21", Func("setAC"))
 wscKeyObj := factory.AddInputButton("keyWSC", "x208 y120 w120 h21", Func("setWsc"))
 factory.AddControl("applyButton", "Button", "x56 y164 w265 h27", "&Save", Func("saveSettings"))
 
-;Check ini for checkbox settings
-
 ;Show GUI
 Gui Show, w370 h235, SDV Rebind
-;Tell program to disable init
+;Tell program to disable init mode
 init++
+initCheckKeys()
 Return
+
+initCheckKeys() {
+    IniRead, wscKeyIni, config.ini, Key, WSC
+    IniRead, acKeyIni, config.ini, Key, AC
+    acKeyCodeChk := factory.IOControls.keyAC.BindObject.Binding[1]
+    wscKeyCodeChk := factory.IOControls.keyWSC.BindObject.Binding[1]
+    acKeyChk := BuildKeyName(acKeyCodeChk)
+    wscKeyChk := BuildKeyName(wscKeyCodeChk)
+    if (acKeyChk != acKeyIni) {
+        IniWrite, %acKeyChk%, config.ini, Key, AC
+    }
+    if (wscKeyChk != wscKeyIni) {
+        IniWrite, %wscKeyChk%, config.ini, Key, WSC
+    }
+
+    return
+}
 
 ; Checkbox Input Checker
 enableWSCInput(state) {
@@ -52,13 +69,13 @@ saveSettings() {
     if (init = 0) {
         return
     }
-    ; Save Checkbox States
+    ; Get and Save Checkbox States
     acChkStatus := factory.GuiControls.acChk._Value
     wscChkStatus := factory.GuiControls.wscChk._Value
     IniWrite, %acChkStatus%, config.ini, Enabled, AC
     IniWrite, %wscChkStatus%, config.ini, Enabled, WSC
 
-    ;Save Hotkeys
+    ; Get and Save Hotkeys
     acKeyCode := factory.IOControls.keyAC.BindObject.Binding[1]
     wscKeyCode := factory.IOControls.keyWSC.BindObject.Binding[1]
     acKey := BuildKeyName(acKeyCode)
@@ -80,9 +97,12 @@ saveSettings() {
             return
         }
     }
-    IniWrite, %acKey%, config.ini, Keys, AC
-    IniWrite, %wscKey%, config.ini, Keys, WSC
-    Msgbox, Settings Saved.
+    if (errorExit = 0) {
+        IniWrite, %wscKey%, config.ini, Key, WSC
+        IniWrite, %acKey%, config.ini, Key, AC
+        Msgbox, Settings saved.
+    }
+    Return
 }
 
 BuildKeyName(code){

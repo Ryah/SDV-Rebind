@@ -1,9 +1,9 @@
 #include %A_LineFile%\..\JSON.ahk
 #include %A_LineFile%\..\BindModeThread.ahk
 #include %A_LineFile%\..\InputThread.ahk
-FileInstall, lib/AppFactory/JSON.ahk, %A_ScriptDir%/lib/JSON.ahk
-FileInstall, lib/AppFactory/BindModeThread.ahk, %A_ScriptDir%/lib/BindModeThread.ahk
-FileInstall, lib/AppFactory/InputThread.ahk, %A_ScriptDir%/lib/InputThread.ahk
+FileInstall, lib/JSON.ahk, %A_ScriptDir%/lib/JSON.ahk
+FileInstall, lib/BindModeThread.ahk, %A_ScriptDir%/lib/BindModeThread.ahk
+FileInstall, lib/InputThread.ahk, %A_ScriptDir%/lib/InputThread.ahk
 
 ; "hotkey, if" needs to have actual #if blocks to match to, so declare empty ones
 #If _AppFactoryBindMode
@@ -409,6 +409,6 @@ Class AppFactory {
 		DeviceID := 0 		; Device ID, eg Stick ID for Joystick input or vGen output
 		Binding := []		; Codes of the input(s) for the Binding. Is an indexed array once set
 							; Normally a single element, but for KBM could be up to 4 modifiers plus a key/button
-		BindOptions := {Block: 0, Wild: 0, SuppressRepeats: 0}
+		BindOptions := {Block: 0, Wild: 0, SuppressRepeats: 1}
 	}
 }
