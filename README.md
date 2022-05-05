@@ -24,3 +24,7 @@ Please [open an issue](https://github.com/Ryah/SDV-Rebind/issues/new) or contact
 ## Contributing
 
 Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/Ryah/SDV-Rebind/compare/).
+
+## Credits
+
+[Uses the AppFactory Library from evilC](https://github.com/evilC/AppFactory)
