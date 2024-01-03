@@ -29,8 +29,8 @@ ExitApp
 Init:
     IniRead, wscChkBox, config.ini, Enabled, WSC
     IniRead, acChkBox, config.ini, Enabled, AC
-    IniRead, wscKey, config.ini, Keys, WSC
-    IniRead, acKey, config.ini, Keys, AC
+    IniRead, wscKey, config.ini, Key, WSC
+    IniRead, acKey, config.ini, Key, AC
     if (wscChkBox = "ERROR" or wscChkBox = "") {
         error := 1
         Msgbox, Error in config. wscChkBox not set.
@@ -60,7 +60,7 @@ Init:
         Msgbox, Please rerun Control Panel to reset keys. Resetting Keys to default now.
         error := 0
         ExitApp
-    }    
+    }
     Notify:=Notify()
     IniRead, update, config.ini, system, keysUpdated
     if (update = 1) {
@@ -68,35 +68,35 @@ Init:
         IniWrite, 0, config.ini, system, keysUpdated
         update := 0
     } else {
-        WindowID:=Notify.AddWindow("Rebind Started",{Size:30,Radius:15,Time:3000,Font:"Consolas",   Color:"0xf8f8ff",Background:"0x301934",Destroy:"Bottom,Slide",Animate:"Bottom,Slide",ShowDelay:250,Title:"SDV Rebind"})
+        WindowID:=Notify.AddWindow("Rebind Started",{Size:30,Radius:15,Time:3000,Font:"Consolas", Color:"0xf8f8ff",Background:"0x301934",Destroy:"Bottom,Slide",Animate:"Bottom,Slide",ShowDelay:250,Title:"SDV Rebind"})
         update := 0
     }
-goto Main
+    goto Main
 
 F3::
-   Suspend, toggle
-   if A_IsSuspended = 0
-   {
-      Soundset, +10
-      SoundBeep , 125, 100
-      SoundBeep , 225, 100
-      Soundset, -10
-   }else  {
-      Soundset, +10
-      SoundBeep , 225, 100
-      SoundBeep , 125, 100
-      Soundset, -10
-   }
+    Suspend, toggle
+    if A_IsSuspended = 0
+    {
+        Soundset, +10
+        SoundBeep , 125, 100
+        SoundBeep , 225, 100
+        Soundset, -10
+    }else {
+        Soundset, +10
+        SoundBeep , 225, 100
+        SoundBeep , 125, 100
+        Soundset, -10
+    }
 return
 
 +F3::
-Reload
+    Reload
 
 ^+F3::
 ExitApp
 
 Main:
-SetTimer, UpdateKeys, 1000
+    SetTimer, UpdateKeys, 1000
 #If WinActive("ahk_exe Stardew Valley.exe")
     if (wscChkBox = 1) {
         Hotkey, %wscKey%, WSCRebind
@@ -123,8 +123,10 @@ UpdateKeys:
     updated := 0
     IniRead, wscChkBox2, config.ini, Enabled, WSC
     IniRead, acChkBox2, config.ini, Enabled, AC
-    IniRead, wscKey2, config.ini, Keys, WSC
-    IniRead, acKey2, config.ini, Keys, AC
+    IniRead, wscKey2, config.ini, Key, WSC
+    IniRead, acKey2, config.ini, Key, AC
+    wscKey2 := formatKeyError(wscKey2)
+    acKey2 := formatKeyError(acKey2)
     if (wscChkBox != wscChkBox2) {
         updated := 1
     }
@@ -144,6 +146,13 @@ UpdateKeys:
     }
 return
 
+formatKeyError(key) {
+    if (key = "ERROR") {
+        key := ""
+    }
+    return key
+}
+
 ;region notify
 #SingleInstance,Force
 Count:=0
@@ -154,9 +163,9 @@ Notify:=Notify(20)
 	Window:=Notify.AddWindow("Your Text Here",{Icon:4,Background:"0xAA00AA"})
 	|---Window ID                                          |--------Options
 	Options:
-	
+
 	Window ID will be used when making calls to Notify.SetProgress(Window,ProgressValue)
-	
+
 	Animate: Ways that the window will animate in eg. {Animate:""} Can be Bottom, Top, Left, Right, Slide, Center, or Blend (Some work together, and some override others)
 	Background: Color value in quotes eg. {Background:"0xAA00AA"}
 	Buttons: Comma Delimited list of names for buttons eg. {Buttons:"One,Two,Three"}
@@ -180,39 +189,39 @@ Notify:=Notify(20)
 	TitleSize: Size of the title text eg. {TitleSize:12}
 */
 if(1){
-	Notify.AddWindow("Testing",{Background:"0xFF00FF",Color:"0xFF0000",ShowDelay:1000,Hide:"Top,Left",Buttons:"This,One,Here",Radius:40})
-	return
+    Notify.AddWindow("Testing",{Background:"0xFF00FF",Color:"0xFF0000",ShowDelay:1000,Hide:"Top,Left",Buttons:"This,One,Here",Radius:40})
+    return
 }
 Text:=["Longer text for a longer thing","Taller Text`nfor`na`ntaller`nthing"]
 SetTimer,RandomProgress,500
 Loop,2
 {
-	Random,Time,3000,8000
-	/*
-		Time:=A_Index=40?1000:Time
-		Random,Sound,500,800
-	*/
-	Random,TT,1,2
-	Random,Background,0x0,0xFFFFFF
-	Random,Color,0x0,0xFFFFFF
-	Random,Icon,20,200
-	Notify.AddWindow(Text[TT],{Icon:300,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,Color:Color})
-	Notify.AddWindow(Text[TT],{Icon:"D:\AHK\AHK-Studio\AHK-Studio.exe",IconSize:20,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,FlashColor:"0xAA00AA",Color:Color,Time:Time,Sound:Sound})
-	Notify.AddWindow(Text[TT],{Icon:Icon,IconSize:80,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,FlashColor:"0xAA00AA",Color:Color,Time:Time,Sound:Sound})
-	ID:=Notify.AddWindow(Text[TT],{Progress:0,Icon:Icon,IconSize:80,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,FlashColor:"0xAA00AA",Color:Color,Time:Time,Sound:Sound})
-	Notify.AddWindow("This is my text",{Title:"My Title"})
-	Random,Ico,1,5
-	Notify.AddWindow("Odd icon",{Icon:A_AhkPath "," Ico,IconSize:20,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,Color:Color,Time:Time})
-	Random,Delay,100,400
-	Delay:=1000
-	Notify.AddWindow(Text[TT],{Radius:20,Hide:"Left,Bottom",Animate:"Right,Slide",ShowDelay:Delay,Icon:Icon,IconSize:20,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Background:Background,Color:Color,Time:Time,Progress:0})
+    Random,Time,3000,8000
+    /*
+    	Time:=A_Index=40?1000:Time
+    	Random,Sound,500,800
+    */
+    Random,TT,1,2
+    Random,Background,0x0,0xFFFFFF
+    Random,Color,0x0,0xFFFFFF
+    Random,Icon,20,200
+    Notify.AddWindow(Text[TT],{Icon:300,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,Color:Color})
+    Notify.AddWindow(Text[TT],{Icon:"D:\AHK\AHK-Studio\AHK-Studio.exe",IconSize:20,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,FlashColor:"0xAA00AA",Color:Color,Time:Time,Sound:Sound})
+    Notify.AddWindow(Text[TT],{Icon:Icon,IconSize:80,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,FlashColor:"0xAA00AA",Color:Color,Time:Time,Sound:Sound})
+    ID:=Notify.AddWindow(Text[TT],{Progress:0,Icon:Icon,IconSize:80,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,FlashColor:"0xAA00AA",Color:Color,Time:Time,Sound:Sound})
+    Notify.AddWindow("This is my text",{Title:"My Title"})
+    Random,Ico,1,5
+    Notify.AddWindow("Odd icon",{Icon:A_AhkPath "," Ico,IconSize:20,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Time:Time,Background:Background,Flash:1000,Color:Color,Time:Time})
+    Random,Delay,100,400
+    Delay:=1000
+    Notify.AddWindow(Text[TT],{Radius:20,Hide:"Left,Bottom",Animate:"Right,Slide",ShowDelay:Delay,Icon:Icon,IconSize:20,Title:"This is my title",TitleFont:"Tahoma",TitleSize:10,Background:Background,Color:Color,Time:Time,Progress:0})
 }
 return
 RandomProgress:
-for a,b in NotifyClass.Windows{
-	Random,Pro,10,100
-	Notify.SetProgress(a,Pro)
-}
+    for a,b in NotifyClass.Windows{
+        Random,Pro,10,100
+        Notify.SetProgress(a,Pro)
+    }
 return
 ; Click(Obj){
 ; 	for a,b in Obj
@@ -221,16 +230,16 @@ return
 ; }
 ;Actual code starts here
 Notify(Margin:=5){
-	static Notify:=New NotifyClass()
-	Notify.Margin:=Margin
-	return Notify
+    static Notify:=New NotifyClass()
+    Notify.Margin:=Margin
+    return Notify
 }
 Class NotifyClass{
-	__New(Margin:=10){
-		this.ShowDelay:=40,this.ID:=0,this.Margin:=Margin,this.Animation:={Bottom:0x00000008,Top:0x00000004,Left:0x00000001,Right:0x00000002,Slide:0x00040000,Center:0x00000010,Blend:0x00080000}
-		if(!this.Init)
-			OnMessage(0x201,NotifyClass.Click.Bind(this)),this.Init:=1
-	}AddWindow(Text,Info:=""){
+    __New(Margin:=10){
+        this.ShowDelay:=40,this.ID:=0,this.Margin:=Margin,this.Animation:={Bottom:0x00000008,Top:0x00000004,Left:0x00000001,Right:0x00000002,Slide:0x00040000,Center:0x00000010,Blend:0x00080000}
+        if(!this.Init)
+            OnMessage(0x201,NotifyClass.Click.Bind(this)),this.Init:=1
+    }AddWindow(Text,Info:=""){
 		(Info?Info:Info:=[])
 		for a,b in {Background:0,Color:"0xAAAAAA",TitleColor:"0xAAAAAA",Font:"Consolas",TitleSize:12,TitleFont:"Consolas",Size:20,Font:"Consolas",IconSize:20}
 			if(Info[a]="")
