@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/14987609/162895110-aaf79ed3-8b5e-419b-
 
 ## Support
 
-Please [open an issue](https://github.com/Ryah/SDV-Rebind/issues/new) or contact Wireless/Ryah#5421 on Discord for support.
+Please [open an issue](https://github.com/Ryah/SDV-Rebind/issues/new) or contact `ryah.` on Discord for support.
 
 ## Contributing
 
